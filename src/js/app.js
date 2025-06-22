@@ -1,3 +1,5 @@
+import { removeItem, createTiket, getTicketById } from "./http";
+
 const btn = document.querySelector(".btn");
 const taskList = document.querySelector(".task-list");
 const desk = document.querySelector(".desk");
@@ -6,11 +8,12 @@ desk.addEventListener("click", (event) => {
     const id = event.target;
     const task = id.closest(".task").id;
     console.log(task);
-    const confirm = confirmDeletion(task)
-    // console.log(removeItem(task));
+    confirmDeletion(task);
   }
   if (event.target.classList.value === "edit") {
-    console.log("edit");
+    const id = event.target;
+    const task = id.closest(".task").id;
+    getTicketById(task).then((task) => openEditDialog(task));
   }
 });
 
@@ -65,25 +68,72 @@ function openDialog() {
   }
 }
 
+function openEditDialog(obj) {
+  console.log(obj)
+    if (!document.querySelector("form")) {
+    const dialog = document.createElement("form");
+    dialog.classList.add("form");
+
+    const title = document.createElement("div");
+    title.classList.add("form-title");
+    title.textContent = "Изменить тикет";
+
+    const nameTitle = document.createElement("div");
+    nameTitle.classList.add("input-text");
+    nameTitle.textContent = "Краткое описание";
+
+    const name = document.createElement("input");
+    name.classList.add("input-text");
+    name.id = "name";
+    name.value = obj.name;
+
+    const discriptionTitle = document.createElement("div");
+    discriptionTitle.classList.add("input-text");
+    discriptionTitle.textContent = "Полное описание";
+
+    const discription = document.createElement("input");
+    discription.classList.add("input-text");
+    discription.id = "description";
+    discription.value = obj.description;
+
+    const ok = document.createElement("div");
+    ok.classList.add("btn");
+    ok.textContent = "ok";
+
+    const cancel = document.createElement("div");
+    cancel.classList.add("btn");
+    cancel.textContent = "Отмена";
+
+    cancel.addEventListener("click", () => {
+      dialog.remove();
+    });
+
+    ok.addEventListener("click", () => {
+      const a = createTiket().then((item) =>
+        getTicketById(item.id).then((data) => addItems(data)),
+      );
+      dialog.remove();
+    });
+
+    dialog.append(
+      title,
+      nameTitle,
+      name,
+      discriptionTitle,
+      discription,
+      ok,
+      cancel,
+    );
+
+    desk.append(dialog);
+  }
+}
+
 initList();
 
-function createTiket() {
-  const name = document.getElementById("name");
-  const description = document.getElementById("description");
-  return fetch("http://localhost:7070?method=createTicket", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-    },
-    body: JSON.stringify({ name: name.value, description: description.value }),
-  }).then((response) => response.json());
-}
 
-function getTicketById(id) {
-  return fetch(`http://localhost:7070?method=ticketById&id=${id}`).then(
-    (resp) => resp.json(),
-  );
-}
+
+
 
 function addItems(obj) {
   const task = document.createElement("div");
@@ -96,6 +146,7 @@ function addItems(obj) {
   const input = document.createElement("input");
   input.classList.add("select");
   input.type = "checkbox";
+  input.checked = obj.status;
 
   const name = document.createElement("div");
   name.classList.add("name");
@@ -119,15 +170,6 @@ function addItems(obj) {
   taskList.append(task);
 }
 
-function removeItem(id) {
-  fetch(`http://localhost:7070?method=deleteById&id=${id}`).then((response) => {
-    if (response.ok) {
-      const removeItem = document.getElementById(id);
-      removeItem.remove();
-      return true;
-    }
-  });
-}
 
 function confirmDeletion(task) {
   if (!document.querySelector("form")) {
@@ -154,8 +196,6 @@ function confirmDeletion(task) {
 
     cd.append(title, ok, cancel);
     desk.append(cd);
-
-
   }
 }
 
