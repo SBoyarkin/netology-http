@@ -1,7 +1,7 @@
 .desk {
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 90%;
 
 }
 .btn {
@@ -23,13 +23,19 @@
   background-color: #e7f5ff;
 }
 .task {
-  display: none;
-  display: flex;
+
   border: solid 1px black;
   padding: 3px;
-
+  user-select: none;
 }
 
+.task-main {
+  display: flex;
+}
+
+.task:hover {
+  background-color: #ffe1e1;
+}
 
 .form {
   background-color: aliceblue;
@@ -57,5 +63,36 @@
   margin-top: 1em;
   width: 95%;
   height: 2em;
+}
 
+.description {
+ background-color: red;
+  display: block;
+}
+
+.remove {
+  padding-left: 5px;
+}
+
+.remove:before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url(../../src/svg/delete.svg);
+  background-size: contain;
+  margin-right: 5px;
+}
+
+.edit {
+  padding-left: 5px;
+}
+.edit:before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url(../../src/svg/edit.svg);
+  background-size: contain;
+  margin-right: 5px;
 }

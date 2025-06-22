@@ -16,30 +16,7 @@ async function initList() {
   let data = await getList().then((data) => data);
   console.log(typeof data);
   for (let key in data) {
-    const task = document.createElement("div");
-    task.classList.add("task");
-    task.id = data[key].id;
-
-    const input = document.createElement("input");
-    input.classList.add("select");
-    input.type = "checkbox";
-
-    const name = document.createElement("div");
-    name.classList.add("name");
-    name.textContent = data[key].name;
-
-    const description = document.createElement("div");
-    description.classList.add("description");
-    description.textContent = data[key].description;
-
-    const edit = document.createElement("div");
-    edit.classList.add("edit");
-
-    const remove = document.createElement("div");
-    remove.classList.add("remove");
-
-    task.append(input, name, description, edit, remove);
-    taskList.append(task);
+    addItems(data[key]);
   }
 }
 
@@ -99,11 +76,12 @@ function getTicketById(id) {
 }
 
 function addItems(obj) {
-  console.log(obj);
-
   const task = document.createElement("div");
   task.classList.add("task");
   task.id = obj.id;
+
+    const main = document.createElement("div");
+  main.classList.add("task-main");
 
   const input = document.createElement("input");
   input.classList.add("select");
@@ -117,13 +95,18 @@ function addItems(obj) {
   description.classList.add("description");
   description.textContent = obj.description;
 
+
   const edit = document.createElement("div");
   edit.classList.add("edit");
 
   const remove = document.createElement("div");
   remove.classList.add("remove");
 
-  task.append(input, name, description, edit, remove);
+  const created = document.createElement("div");
+  created.classList.add("created");
+  created.textContent = obj.created;
+  main.append(input, name, created, edit, remove);
+  task.append(main, description);
   taskList.append(task);
 }
 
