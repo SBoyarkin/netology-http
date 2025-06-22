@@ -41,7 +41,7 @@
 }
 
 .task:hover {
-  background-color: #ffe1e1;
+  background-color: #ff5d5d;
 }
 
 .form {
@@ -86,7 +86,7 @@
   border-radius: 100%;
 }
 .remove:hover {
-  background-color: #ff7fd2;
+  background-color: #c4ffec;
 }
 
 
@@ -104,7 +104,7 @@
 }
 
 .edit:hover {
-  background-color: aquamarine;
+  background-color: #dcfff5;
 }
 
 .description {
@@ -114,7 +114,7 @@
 
 .created {
   margin-left: 5px;
-  margin-right: 5px;
+  margin-right: 2em;
 }
 
 
@@ -125,4 +125,8 @@
 
 .information {
   display: flex;
+}
+
+.name {
+  margin-left: 5px;
 }
