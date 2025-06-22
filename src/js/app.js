@@ -1,4 +1,4 @@
-import { removeItem, createTiket, getTicketById } from "./http";
+import { removeItem, createTicket, getTicketById, updateTicket } from "./http";
 
 const btn = document.querySelector(".btn");
 const taskList = document.querySelector(".task-list");
@@ -56,7 +56,7 @@ function openDialog() {
     });
 
     ok.addEventListener("click", () => {
-      const a = createTiket().then((item) =>
+      const a = createTicket().then((item) =>
         getTicketById(item.id).then((data) => addItems(data)),
       );
       dialog.remove();
@@ -69,8 +69,8 @@ function openDialog() {
 }
 
 function openEditDialog(obj) {
-  console.log(obj)
-    if (!document.querySelector("form")) {
+  console.log(obj);
+  if (!document.querySelector("form")) {
     const dialog = document.createElement("form");
     dialog.classList.add("form");
 
@@ -109,10 +109,13 @@ function openEditDialog(obj) {
     });
 
     ok.addEventListener("click", () => {
-      const a = createTiket().then((item) =>
-        getTicketById(item.id).then((data) => addItems(data)),
-      );
+      updateTicket(obj.id, name.value, discription.value)
+        .then(updateItems)
+        .then(() => initList())
+
       dialog.remove();
+
+      // dialog.remove();
     });
 
     dialog.append(
@@ -130,10 +133,6 @@ function openEditDialog(obj) {
 }
 
 initList();
-
-
-
-
 
 function addItems(obj) {
   const task = document.createElement("div");
@@ -164,12 +163,16 @@ function addItems(obj) {
 
   const created = document.createElement("div");
   created.classList.add("created");
-  created.textContent = obj.created;
+  created.textContent = formatDate(obj.created);
   main.append(input, name, created, edit, remove);
   task.append(main, description);
   taskList.append(task);
 }
 
+async function updateItems() {
+  taskList.innerHTML = "";
+
+}
 
 function confirmDeletion(task) {
   if (!document.querySelector("form")) {
@@ -199,15 +202,14 @@ function confirmDeletion(task) {
   }
 }
 
-// Примеры запросов:
-//
-// GET    ?method=allTickets - список тикетов
-// GET    ?method=ticketById&id=<id> - полное описание тикета (где <id> - идентификатор тикета)
-// POST   ?method=createTicket - создание тикета (<id> генерируется на сервере, в теле формы name, description, status)
-// Соответственно:
-//
-// POST   ?method=createTicket - в теле запроса форма с полями для объекта типа Ticket (с id = null)
-// POST   ?method=updateById&id=<id> - в теле запроса форма с полями для обновления объекта типа Ticket по id
-// GET    ?method=allTickets  - массив объектов типа Ticket (т.е. без description)
-// GET    ?method=ticketById&id=<id> - объект типа Ticket
-// GET    ?method=deleteById&id=<id> - удалить объект типа Ticket по id, при успешном запросе статус ответа 204
+function formatDate(timestamp) {
+  const date = new Date(timestamp);
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = String(date.getFullYear()).slice(-2);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${day}.${month}.${year} ${hours}:${minutes}`;
+}
