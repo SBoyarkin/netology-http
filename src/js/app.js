@@ -111,7 +111,7 @@ function openEditDialog(obj) {
     ok.addEventListener("click", () => {
       updateTicket(obj.id, name.value, discription.value)
         .then(updateItems)
-        .then(() => initList())
+        .then(() => initList());
 
       dialog.remove();
 
@@ -142,6 +142,9 @@ function addItems(obj) {
   const main = document.createElement("div");
   main.classList.add("task-main");
 
+  const information = document.createElement("div");
+  information.classList.add('information')
+
   const input = document.createElement("input");
   input.classList.add("select");
   input.type = "checkbox";
@@ -155,23 +158,29 @@ function addItems(obj) {
   description.classList.add("description");
   description.textContent = obj.description;
 
+  const crud = document.createElement("div");
+  crud.classList.add("crud");
+
   const edit = document.createElement("div");
   edit.classList.add("edit");
+  edit.textContent = "✎";
 
   const remove = document.createElement("div");
   remove.classList.add("remove");
+  remove.textContent = "Х";
 
   const created = document.createElement("div");
   created.classList.add("created");
   created.textContent = formatDate(obj.created);
-  main.append(input, name, created, edit, remove);
+  crud.append(created, edit, remove);
+  information.append(input, name);
+  main.append(information, crud);
   task.append(main, description);
   taskList.append(task);
 }
 
 async function updateItems() {
   taskList.innerHTML = "";
-
 }
 
 function confirmDeletion(task) {

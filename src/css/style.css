@@ -27,10 +27,17 @@
   border: solid 1px black;
   padding: 3px;
   user-select: none;
+
 }
+
+.task:not(:last-child) {
+  border-bottom: none;
+}
+
 
 .task-main {
   display: flex;
+  justify-content: space-between;
 }
 
 .task:hover {
@@ -71,28 +78,51 @@
 }
 
 .remove {
-  padding-left: 5px;
+  margin: 0px 2px 0px 2px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  border: solid 1px;
+  border-radius: 100%;
+}
+.remove:hover {
+  background-color: #ff7fd2;
 }
 
-.remove:before {
-  content: "";
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  background-image: url(../../src/svg/delete.svg);
-  background-size: contain;
-  margin-right: 5px;
-}
+
 
 .edit {
-  padding-left: 5px;
+  display: flex;
+  flex-direction: column-reverse;
+  margin: 0px 2px 0px 2px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+
+  border: solid 1px;
+  border-radius: 100%;
 }
-.edit:before {
-  content: "";
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  background-image: url(../../src/svg/edit.svg);
-  background-size: contain;
+
+.edit:hover {
+  background-color: aquamarine;
+}
+
+.description {
+  display: none;
+}
+
+
+.created {
+  margin-left: 5px;
   margin-right: 5px;
+}
+
+
+.crud {
+  display: flex;
+}
+
+
+.information {
+  display: flex;
 }
