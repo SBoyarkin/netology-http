@@ -1,10 +1,20 @@
 const btn = document.querySelector(".btn");
 const taskList = document.querySelector(".task-list");
 const desk = document.querySelector(".desk");
+desk.addEventListener("click", (event) => {
+  if (event.target.classList.value === "remove") {
+    const id = event.target;
+    const task = id.closest(".task").id;
+    console.log(task);
+    const confirm = confirmDeletion(task)
+    // console.log(removeItem(task));
+  }
+  if (event.target.classList.value === "edit") {
+    console.log("edit");
+  }
+});
 
 btn.addEventListener("click", () => openDialog());
-// btn.addEventListener("click", () => {
-//   getTicketById('3acfe274-8564-44d3-a092-09cad07b8072').then(ticket => console.log(ticket))});
 
 function getList() {
   return fetch("http://localhost:7070?method=allTickets").then((response) =>
@@ -80,7 +90,7 @@ function addItems(obj) {
   task.classList.add("task");
   task.id = obj.id;
 
-    const main = document.createElement("div");
+  const main = document.createElement("div");
   main.classList.add("task-main");
 
   const input = document.createElement("input");
@@ -95,7 +105,6 @@ function addItems(obj) {
   description.classList.add("description");
   description.textContent = obj.description;
 
-
   const edit = document.createElement("div");
   edit.classList.add("edit");
 
@@ -108,6 +117,46 @@ function addItems(obj) {
   main.append(input, name, created, edit, remove);
   task.append(main, description);
   taskList.append(task);
+}
+
+function removeItem(id) {
+  fetch(`http://localhost:7070?method=deleteById&id=${id}`).then((response) => {
+    if (response.ok) {
+      const removeItem = document.getElementById(id);
+      removeItem.remove();
+      return true;
+    }
+  });
+}
+
+function confirmDeletion(task) {
+  if (!document.querySelector("form")) {
+    const cd = document.createElement("form");
+    cd.classList.add("form");
+    const title = document.createElement("div");
+    title.textContent = "Вы действительно хотите удалить эту запись?";
+
+    const ok = document.createElement("div");
+    ok.classList.add("btn");
+    ok.textContent = "ok";
+    const cancel = document.createElement("div");
+    cancel.classList.add("btn");
+    cancel.textContent = "Отмена";
+
+    cancel.addEventListener("click", () => {
+      cd.remove();
+    });
+
+    ok.addEventListener("click", () => {
+      removeItem(task);
+      cd.remove();
+    });
+
+    cd.append(title, ok, cancel);
+    desk.append(cd);
+
+
+  }
 }
 
 // Примеры запросов:
