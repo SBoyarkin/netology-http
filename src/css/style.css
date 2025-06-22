@@ -2,6 +2,7 @@
   margin-left: auto;
   margin-right: auto;
   width: 50%;
+
 }
 .btn {
   border: solid 1px black;
@@ -31,8 +32,19 @@
 
 
 .form {
+  background-color: aliceblue;
+  height: 40%;
+  width: 60%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border: solid 1px black;
   border-radius: 0.5em;
+  padding: 10px;
+  text-align: center;
+  align-items: center;
+;
 
 
 }
@@ -42,9 +54,8 @@
 }
 
 .input-text {
-
-  width: 100%;
+  margin-top: 1em;
+  width: 95%;
   height: 2em;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+
 }
