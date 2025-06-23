@@ -116,12 +116,11 @@ function openEditDialog(obj) {
     ok.addEventListener("click", () => {
       console.log(name);
 
-        updateTicket({ id: obj.id, name: name.value, desc: discription.value })
-          .then(updateItems)
-          .then(() => initList());
+      updateTicket({ id: obj.id, name: name.value, desc: discription.value })
+        .then(updateItems)
+        .then(() => initList());
 
-        dialog.remove();
-
+      dialog.remove();
     });
 
     dialog.append(
