@@ -26,7 +26,7 @@ export function removeItem(id) {
   });
 }
 
-export function updateTicket(id, name, desc) {
+export function updateTicket({ id, name, desc, status }) {
   return fetch(`http://localhost:7070?method=updateById&id=${id}`, {
     method: "POST",
     headers: {
@@ -35,6 +35,7 @@ export function updateTicket(id, name, desc) {
     body: JSON.stringify({
       name: name,
       description: desc,
+      status: status,
     }),
   });
 }

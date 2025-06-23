@@ -3,6 +3,7 @@ import { removeItem, createTicket, getTicketById, updateTicket } from "./http";
 const btn = document.querySelector(".btn");
 const taskList = document.querySelector(".task-list");
 const desk = document.querySelector(".desk");
+
 desk.addEventListener("click", (event) => {
   if (event.target.classList.value === "remove") {
     const id = event.target;
@@ -14,6 +15,9 @@ desk.addEventListener("click", (event) => {
     const id = event.target;
     const task = id.closest(".task").id;
     getTicketById(task).then((task) => openEditDialog(task));
+  }
+  if (event.target.classList.value === "select") {
+    checkedTask(event);
   }
 });
 
@@ -86,6 +90,7 @@ function openEditDialog(obj) {
     name.classList.add("input-text");
     name.id = "name";
     name.value = obj.name;
+    name.required;
 
     const discriptionTitle = document.createElement("div");
     discriptionTitle.classList.add("input-text");
@@ -109,13 +114,14 @@ function openEditDialog(obj) {
     });
 
     ok.addEventListener("click", () => {
-      updateTicket(obj.id, name.value, discription.value)
-        .then(updateItems)
-        .then(() => initList());
+      console.log(name);
 
-      dialog.remove();
+        updateTicket({ id: obj.id, name: name.value, desc: discription.value })
+          .then(updateItems)
+          .then(() => initList());
 
-      // dialog.remove();
+        dialog.remove();
+
     });
 
     dialog.append(
@@ -143,7 +149,7 @@ function addItems(obj) {
   main.classList.add("task-main");
 
   const information = document.createElement("div");
-  information.classList.add('information')
+  information.classList.add("information");
 
   const input = document.createElement("input");
   input.classList.add("select");
@@ -221,4 +227,13 @@ function formatDate(timestamp) {
   const minutes = String(date.getMinutes()).padStart(2, "0");
 
   return `${day}.${month}.${year} ${hours}:${minutes}`;
+}
+
+function checkedTask(event) {
+  console.log(event.target.checked);
+  console.log(event.target.closest(".task"));
+  updateTicket({
+    id: event.target.closest(".task").id,
+    status: event.target.checked,
+  });
 }
