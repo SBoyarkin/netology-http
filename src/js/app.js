@@ -19,6 +19,9 @@ desk.addEventListener("click", (event) => {
   if (event.target.classList.value === "select") {
     checkedTask(event);
   }
+  if (event.target) {
+    console.log(event.target)
+  }
 });
 
 btn.addEventListener("click", () => openDialog());
