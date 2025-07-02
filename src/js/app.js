@@ -19,9 +19,6 @@ desk.addEventListener("click", (event) => {
   if (event.target.classList.value === "select") {
     checkedTask(event);
   }
-  if (event.target) {
-    console.log(event.target)
-  }
 });
 
 btn.addEventListener("click", () => openDialog());
@@ -164,6 +161,7 @@ function addItems(obj) {
 
   const description = document.createElement("div");
   description.classList.add("description");
+  description.classList.add("visible");
   description.textContent = obj.description;
 
   const crud = document.createElement("div");
@@ -184,6 +182,18 @@ function addItems(obj) {
   information.append(input, name);
   main.append(information, crud);
   task.append(main, description);
+
+  task.addEventListener("click", (event) => {
+    if (event.currentTarget.classList.contains("task")) {
+      if (event.target.classList.contains("edit")) return;
+      if (event.target.classList.contains("remove")) return;
+      let desc = event.currentTarget.querySelector(".description");
+      if (desc.textContent.length > 0) {
+        console.log(desc)
+        desc.classList.toggle("visible");
+      }
+    }
+  });
   taskList.append(task);
 }
 
