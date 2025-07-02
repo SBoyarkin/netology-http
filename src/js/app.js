@@ -60,7 +60,7 @@ function openDialog() {
     });
 
     ok.addEventListener("click", () => {
-      const a = createTicket().then((item) =>
+      createTicket().then((item) =>
         getTicketById(item.id).then((data) => addItems(data)),
       );
       dialog.remove();
@@ -189,7 +189,7 @@ function addItems(obj) {
       if (event.target.classList.contains("remove")) return;
       let desc = event.currentTarget.querySelector(".description");
       if (desc.textContent.length > 0) {
-        console.log(desc)
+        console.log(desc);
         desc.classList.toggle("visible");
       }
     }
